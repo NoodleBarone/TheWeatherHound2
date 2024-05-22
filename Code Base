@@ -1,0 +1,709 @@
+
+
+
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>WeatherHound</title>
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.4/dist/tailwind.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="https://i.imgur.com/wqM0I6O.png">
+
+	<style>
+		
+		/* Add this CSS for the background container */
+.background-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure the container covers the full viewport height */
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+		/* Base Styles */
+body, h1, h2, h3, p {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Header Styles */
+#city, #timeOfDay {
+    text-align: center;
+    font-size: 1.3em;
+    color: #ff4d6a;
+    background: #F7C1C1;
+    text-shadow: 4px 3px 0px #7A7A7A;
+    color: #FFFFFF;
+}
+
+.CityTimeBanner {
+    align-items: center;
+    border-radius: 0 0 40px 40px;
+    font-size: 2em;
+}
+
+/* Weather Container */
+#WeatherContainer {
+    border-top: 5px solid #ff4d6a;
+    border-radius: 20px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+    border-radius: 20px 20px 0 0;
+    opacity: 0;
+}
+
+#CurrentWeatherText {
+    font-size: 2.5em;
+    padding: 3px;
+}
+
+/* Card Header */
+#cardheader {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    color: #333;
+    background: linear-gradient(145deg, #ff4d6a, #ff96b3);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Opacity Related Styles */
+#city, #timeOfDay, #CurrentWeatherText, #currentConditions, #actualTemperature, #actualWindSpeed, #actualHumidity, #WeatherContainer, #comfortcardsbox {
+    opacity: 0;
+}
+
+/* Remaining styles follow from the previous response... */
+
+* Base Styles */
+body, h1, h2, h3, p {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* WeatherHound Main Wrapper */
+.WeatherHoundWrapper {
+    display: flex;
+    flex-direction: column;
+    background: url("https://i.imgur.com/xYxuA2Y.png") no-repeat center center fixed;
+    background-size: cover;
+    box-sizing: border-box;
+}
+
+/* Masthead Styles */
+.MastheadWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.WeatherHoundLogo {
+    animation: fadeIn 1s ease-in-out;
+    border: 16px initial rgba(99, 99, 99, .07);
+    border-radius: 29px;
+    box-shadow: 9px 5px 0 0 rgba(0, 0, 0, .3);
+}
+
+/* Form Elements */
+.btn, .form-input {
+    transition: all 0.2s ease-in-out;
+}
+
+.comfort-card:hover, .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 16px rgba(0, 0, 0, .25);
+    background: #ff4d6a;
+}
+
+.form-input {
+    border: 2px solid #e2e2e2;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: auto;
+    max-width: 100%;
+}
+
+/* Comfort Card Styles */
+.comfort-card {
+    background: #ff96b3;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    margin: 16px;
+    padding: 20px;
+    width: 100%;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px;
+    background: #fff;
+    border-radius: .5rem;
+    overflow: hidden;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, .2);
+    transition: transform .2s;
+    width: 100%;
+	
+}
+
+.card-container img {
+    max-width: 100%;
+		min-height: 80%;
+    height: auto;
+}
+
+/* Font Size Adjustments */
+#city, #timeOfDay, #CurrentWeatherText, #currentConditions, #actualTemperature, #actualWindSpeed, #actualHumidity {
+    font-size: calc(12px + 0.5vw);
+}
+
+/* Header Styles */
+#city, #timeOfDay {
+    text-align: center;
+    font-size: 1.3em;
+    color: #ff4d6a;
+    background: #F7C1C1;
+    text-shadow: 4px 3px 0px #7A7A7A;
+    color: #FFFFFF;
+}
+
+.CityTimeBanner {
+    align-items: center;
+    border-radius: 0 0 40px 40px;
+    font-size: 2em;
+}
+
+/* Weather Container */
+#WeatherContainer {
+    border-top: 5px solid #ff4d6a;
+    border-radius: 20px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+    border-radius: 20px 20px 0 0;
+    opacity: 0;
+}
+
+#CurrentWeatherText {
+    font-size: 2.5em;
+    padding: 3px;
+}
+
+/* Card Header */
+#cardheader {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    color: #333;
+    background: linear-gradient(145deg, #ff4d6a, #ff96b3);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Animations */
+@keyframes rollIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animation-rollIn {
+    animation: rollIn 1s ease-out forwards;
+}
+
+
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .WeatherHoundWrapper,
+    .comfort-card {
+        border-radius: 15px;
+        max-width: 100%;
+    }
+
+    .MastheadWrapper {
+        flex-direction: column;
+    }
+
+    .WeatherHoundLogo {
+        max-width: 80%;
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    .WeatherHoundWrapper {
+        max-width: 80%;
+        border-radius: 25px;
+    }
+
+    .MastheadWrapper {
+        flex-direction: row;
+    }
+
+    .WeatherHoundLogo {
+        max-width: 60%;
+    }
+
+    .comfort-card {
+        max-width: 320px;
+    }
+}
+
+
+	</style>
+</head>
+<div class = "background-container">
+<div class='WeatherHoundWrapper' id="background" class="from-white to-blue-300 bg-gradient-to-bl">
+
+	<div class="flex justify-center space-x-2">
+		<input type="text" class="form-input px-4 py-2 border rounded w-64" id="zipCode" placeholder="Fetch Rubz">
+		<button class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="fetchButton">Zip Code Plz!</button>
+	</div>
+
+	<div class="MastheadWrapper">
+		<div id="valentines-overlay"></div>
+		<div class="flex justify-center items-start my-4">
+
+			<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0&appId=1271706266827948" nonce="YkSkKA9D"></script>
+			<div class="fb-page" data-href="https://www.facebook.com/flatbassets" data-tabs="" data-width="" data-height="" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+				<blockquote cite="https://www.facebook.com/flatbassets" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/flatbassets">Flat Bassets</a></blockquote>
+			</div>
+		</div>
+		<img class="WeatherHoundLogo" src="https://i.imgur.com/irZeTt9.png" alt="WeatherHound" id="Logo">
+
+	</div>
+	<div class="CityTimeBanner">
+
+		<H2 id="city"></H2>
+		<H2 id="timeOfDay"></H2>
+	</div>
+	<!-- Weather Values Section -->
+	<div class="text-center my-8">
+		<div class="flex flex-wrap justify-center" id="WeatherContainer">
+			<h2 class="text-2xl font-bold text-gray-800 mb-4" id="CurrentWeatherText">Current Weather</h2>
+
+			<section class='rollIn'>
+				<p class="text-lg text-gray-700 mb-2" id="currentConditions"></p>
+				<p class="text-lg text-gray-700 mb-2" id="actualTemperature"></p>
+				<p class="text-lg text-gray-700 mb-2" id="actualWindSpeed"></p>
+				<p class="text-lg text-gray-700" id="actualHumidity"></p>
+
+			</section>
+		</div>
+		<!-- Pavement Temperature Card -->
+		<div class="flex flex-wrap justify-center" id="comfortcardsbox">
+			<!-- Pavement Temperature Card -->
+			<div class="comfort-card">
+				<div class="card-container">
+					<h2 class="font-semibold text-2xl text-gray-800" id='cardheader'>Hockey Fetchya's Pavement Temperature:</h2>
+					<img class="w-32 h-32 rounded-full" src="https://i.imgur.com/mbCPCw2.jpg" alt="HappyPup">
+					<p class="text-lg font-medium text-gray-700" id="pavementTemperature">Pavement Temperature:</p>
+					<div class="scrollable-content">
+						<p class="text-gray-600 text-center" id="pavementNarrative"></p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Allergy Index Card -->
+			<div class="comfort-card">
+				<div class="card-container">
+					<h2 class="font-semibold text-2xl text-gray-800" id='cardheader'>Buttermilk's Allergy Allegories</h2>
+					<img class="w-32 h-32 rounded-full" src="https://i.imgur.com/aSJfB5H.png" alt="HappyPup">
+					<p class="text-lg font-medium text-gray-700" id="allergyFactor">Allergy Index:</p>
+					<div class="scrollable-content">
+						<p class="text-gray-600 text-center" id="allergyNarrative"></p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Arthritis Index Card -->
+			<!-- Stickiness Card -->
+			<div class="comfort-card">
+				<div class="card-container">
+					<h2 class="font-semibold text-2xl text-gray-800" id='cardheader'>Sticky Situations w/ Wrinkles Wooney</h2>
+					<img class="w-32 h-32 rounded-full" src="https://i.imgur.com/PSbzXOQ.png" alt="HappyPup">
+					<p class="text-lg font-medium text-gray-700" id="stickiness">""</p>
+					<p class="text-gray-600 text-center" id="stickinessnarrative">This is a placeholder narrative for stickiness.</p>
+				</div>
+			</div>
+
+			<!-- Wind Direction Card -->
+			<div class="comfort-card">
+				<div class="card-container">
+					<h2 class="font-semibold text-2xl text-gray-800" id='cardheader'>Mr. Yips Zany Zoonies</h2>
+					<img class="w-32 h-32 rounded-full" src="https://i.imgur.com/wqM0I6O.png" alt="HappyPup">
+					<p class="text-lg font-medium text-gray-700" id="windDirectionFactor">Zoomie Alert</p>
+					<p class="text-gray-600 text-center" id="windDirectionNarrative">This is a placeholder narrative for wind direction.</p>
+				</div>
+			</div>
+
+			<div class="comfort-card">
+				<div class="card-container">
+					<h2 class="font-semibold text-2xl text-gray-800" id='cardheader'>Dotty Pepperelli's Power Paws</h2>
+					<img class="w-32 h-32 rounded-full" src="https://i.imgur.com/bUdub9p.png" alt="HappyPup">
+					<p class="text-lg font-medium text-gray-700" id="arthritisIndex">Arthritis Index:</p>
+					<div class="scrollable-content">
+						<p class="text-gray-600 text-center" id="arthritisNarrative"></p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+		<script>
+			const API_KEY = "6caf3e0df225302eab82450f06beb090";
+let weatherData;
+let weatherIconClass;
+let weatherText; // Declare weatherText globally
+
+// Helper function to fetch weather data
+async function fetchWeatherData(zipCode) {
+	try {
+		const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${API_KEY}&units=imperial`;
+		const response = await fetch(url);
+
+		if (response.status !== 200) {
+			throw new Error("Failed to fetch weather data");
+		}
+
+		const weather = await response.json();
+
+		// Add additional details to the weather data
+		weather.timeOfDay = new Date().toLocaleTimeString();
+		weather.currentConditions = weather.weather[0].description;
+
+		// Add this line to store the text form of weather conditions
+		weatherText = weather.weather[0].description; // Remove 'const' here
+
+		return weather;
+	} catch (error) {
+		console.error(error);
+		throw new Error("Failed to fetch weather data");
+	}
+}
+// Helper function to calculate comfort factors
+function calculateComfortFactors(data) {
+	const { temp, humidity, pressure } = data.main;
+	const { speed, deg } = data.wind;
+
+	// Enhanced Factors for Basset Hound comfort
+	// Using more refined formulas for comfort calculation
+	const pavementTemperature = calculatePavementTemperature(temp, speed);
+	const stickiness = calculateStickinessIndex(humidity, temp);
+	const arthritisIndex = calculateArthritisIndex(pressure, temp);
+	const allergyFactor = calculateAllergyFactor(humidity, pressure);
+	const windDirectionFactor = calculateWindDirectionFactor(speed, deg);
+
+	return {
+		pavementTemperature,
+		stickiness,
+		arthritisIndex,
+		allergyFactor,
+		windDirectionFactor
+	};
+}
+
+// Additional helper functions for refined calculations
+function calculatePavementTemperature(airTemp, windSpeed) {
+	// Example formula: Pavement temperature can be higher than air temperature under direct sunlight
+	return airTemp + (windSpeed < 5 ? 10 : 5); // Simplified for illustration
+}
+
+function calculateStickinessIndex(humidity, temp) {
+	// Example formula: Higher humidity and temperature increase stickiness
+	return humidity * (temp / 100);
+}
+
+function calculateArthritisIndex(pressure, temp) {
+	// Example formula: Lower pressure and colder temperatures can increase arthritis discomfort
+	return 100 - pressure / 10 - temp / 5;
+}
+
+function calculateAllergyFactor(humidity, pressure) {
+	// Example formula: Higher humidity and lower pressure can increase allergy symptoms
+	return humidity / 2 + (1000 - pressure) / 10;
+}
+
+function calculateWindDirectionFactor(windSpeed, deg) {
+	// Example formula: Factor considering wind speed and direction
+	return windSpeed * Math.cos((deg * Math.PI) / 180);
+}
+
+// Helper function to get a random narrative
+function getRandomNarrative(
+	factor,
+	highResponses,
+	mediumResponses,
+	lowResponses
+) {
+	if (factor > 80) {
+		return highResponses[Math.floor(Math.random() * highResponses.length)];
+	} else if (factor > 60) {
+		return mediumResponses[Math.floor(Math.random() * mediumResponses.length)];
+	} else {
+		return lowResponses[Math.floor(Math.random() * lowResponses.length)];
+	}
+}
+
+// Helper function to update the UI with comfort factors and narratives
+function updateUI() {
+	const comfortFactors = calculateComfortFactors(weatherData);
+
+	const narratives = {
+		pavementNarrative: getRandomNarrative(
+			comfortFactors.pavementTemperature,
+			[
+				"The pavement is scorching hot, just like a sizzling hockey game! I refuse to go for a walk today and prefer to stay cool indoors.",
+				"The pavement temperature is unbearable, like facing a tough opponent on the ice. No way am I stepping out into this heat.",
+				"It's too hot for my delicate paws on the pavement. Indoor lounging it is, but maybe I'll practice my slapshot indoors instead."
+			],
+			[
+				"The pavement temperature is moderate, like a friendly game of street hockey. Fine, I'll consider a short walk and maybe even some puck handling.",
+				"The pavement is warm but manageable, just like a scrimmage with friends. I might entertain a short stroll and work on my stickhandling skills.",
+				"The pavement temperature is tolerable for a brief outdoor jaunt. Maybe I'll practice my wrist shot while I'm out there."
+			],
+			[
+				"The pavement temperature is cool and comfortable, perfect for my leisurely walk, just like gliding on the ice! I'll enjoy a relaxing stroll and dream of scoring goals.",
+				"The pavement is pleasantly cool, like a rink before a big game. I suppose I can grace it with my presence and maybe even play some street hockey.",
+				"It's a great day for a long walk, and the pavement temperature suits my royal paws, just like a championship match! I'll strut my stuff and pretend I'm the hockey superstar."
+			]
+		),
+		stickinessNarrative: getRandomNarrative(
+			comfortFactors.stickiness,
+			[
+				"It's very humid outside. My stubborn nature despises this stickiness.",
+				"The air is quite sticky, and I'm not pleased about it.",
+				"Expect a sticky atmosphere, and my grumbling about it. Keep me hydrated."
+			],
+			[
+				"The stickiness level is moderate. I'll tolerate it, but I'm not thrilled.",
+				"It's a bit humid, but I'll reluctantly go for a walk. Fetch my water!",
+				"Moderate stickiness in the air. Keep the treats ready to appease me."
+			],
+			[
+				"The air is dry and comfortable. Perfect for my superior stroll!",
+				"No stickiness in the air to bother my majesty. A comfortable walk it shall be.",
+				"Low humidity conditions, just as I prefer. Ideal for my outdoor activities."
+			]
+		),
+		arthritisIndexNarrative: getRandomNarrative(
+			comfortFactors.arthritisIndex,
+			[
+				"Ohohohohoho, watch out, kiddos! Get *all* the rubs you can because your momma's hips are gonna need 'em. Supermom can't slow down!",
+				"Expect high arthritis discomfort for me today. Supermom will be lounging indoors, but only for a moment because there's always something to do!",
+				"Not a great day for my arthritis, but there's no rest for Supermom. I demand low-impact pampering while I save the day!"
+			],
+			[
+				"The arthritis index is moderate, and my joints are grumbling like a superhero in disguise. Short walks only, I've got a cape to wear!",
+				"Moderate arthritis discomfort today, but don't expect me to overexert myself. Supermom needs to save energy for multitasking!",
+				"Some arthritis discomfort, but I'll manage like the superhero I am. Keep activities light, please, as I juggle my responsibilities."
+			],
+			[
+				"Low arthritis discomfort today, and Supermom is considering a leisurely walk with minimal complaints. Saving the world requires some fresh air!",
+				"The arthritis index is low, and my joints are in an agreeable mood. Let's walk the dog park, and I'll be a super mom on the go!",
+				"No arthritis discomfort expected, which is exactly how I prefer it. It's a good day for activities because Supermom never stops!"
+			]
+		),
+
+		allergyFactorNarrative: getRandomNarrative(
+			comfortFactors.allergyFactor,
+			[
+				"Today's allergy factor is as high as calculating the quadratic equation! My allergies are acting up like a complex mathematical problem. Staying indoors is the logical solution.",
+				"Attention, fellow allergy sufferers! The pollen count is higher than my excitement for science class. It's a challenging day, and I'm not having it!",
+				"The allergy factor is off the charts, and my sneezes are as frequent as π. Expect allergies to flare up, and my stubborn sneezes. Keep allergy meds handy like a trusty calculator."
+			],
+			[
+				"Today's allergy factor is moderate, just like a middle-school math problem. Be prepared for my occasional sniffles on our walk. It's a tolerable equation.",
+				"Some pollen in the air, but I'll brave it like a courageous scientist. Walks are not canceled, but they'll be grumpy, just like the school cafeteria food.",
+				"Moderate allergy conditions, as balanced as a chemical equation. Take precautions if you must, but I'm going for a walk to gather scientific data."
+			],
+			[
+				"Today's allergy factor is as low as a fraction in simplest form, and I'm allergy-free. I might tolerate a stroll outdoors, just like discovering a new theorem.",
+				"No significant allergens in the air, a sniffle-free walk is what I deserve, like acing a pop quiz in class.",
+				"Low allergy conditions, perfect for my allergy-prone subjects, I mean, companions. It's like finding the missing piece of the puzzle in our adventure."
+			]
+		),
+
+		windDirectionNarrative: getRandomNarrative(
+			comfortFactors.windDirectionFactor,
+			[
+				"Strong winds from an uncomfortable direction. I'll think twice about this walk.",
+				"Unfavorable wind direction today. I'll consider the wind's impact on my majesty.",
+				"Winds from an unfavorable direction may make it challenging for me."
+			],
+			[
+				"Moderate winds from a manageable direction. I'll go out, but expect some stubbornness.",
+				"Winds are moderate but not ideal. I'll venture out, but with hesitation.",
+				"Moderate winds from an okay direction. I suppose I can tolerate it."
+			],
+			[
+				"Gentle winds from a favorable direction. Perfect for my leisurely stroll!",
+				"Favorable wind conditions today. I'll bless you with my presence on this peaceful walk.",
+				"Light winds from a favorable direction. Ideal conditions for my outdoor activities."
+			]
+		)
+	};
+
+	// Update UI elements with weather data and comfort factors
+	document.getElementById("city").innerText = "Hello " + weatherData.name + "!";
+	document.getElementById("actualTemperature").innerHTML =
+		'<i class="fas fa-thermometer-half"></i> ' +
+		weatherData.main.temp.toFixed(2) +
+		" °F";
+	document.getElementById("actualWindSpeed").innerHTML =
+		'<i class="fas fa-wind"></i> Wind Speed: ' +
+		weatherData.wind.speed.toFixed(2) +
+		" mph";
+	document.getElementById("actualHumidity").innerHTML =
+		'<i class="fas fa-tint"></i> Humidity: ' +
+		weatherData.main.humidity.toFixed(2) +
+		"%";
+	document.getElementById("timeOfDay").innerText =
+		"Time of Day: " + weatherData.timeOfDay;
+	document.getElementById("currentConditions").innerHTML =
+		'<i class="' + weatherIconClass + '"></i> ' + weatherText;
+
+	// Stickiness updates
+	document.getElementById("stickiness").innerText =
+		"Stickiness: " + comfortFactors.stickiness.toFixed(2) + "%";
+	document.getElementById("stickinessnarrative").innerText =
+		narratives.stickinessNarrative;
+
+	// Pavement temperature update
+	document.getElementById("pavementTemperature").innerText =
+		"Pavement Temperature: " + comfortFactors.pavementTemperature.toFixed(2);
+	document.getElementById("pavementNarrative").innerText =
+		narratives.pavementNarrative;
+
+	// Arthritis index update
+	document.getElementById("arthritisIndex").innerText =
+		"Arthritis Index: " + comfortFactors.arthritisIndex.toFixed(2);
+	document.getElementById("arthritisNarrative").innerText =
+		narratives.arthritisIndexNarrative;
+
+	// Allergy index update
+	document.getElementById("allergyFactor").innerText =
+		"Allergy Index: " + comfortFactors.allergyFactor.toFixed(2);
+	var greetingElement = document.getElementById("allergyNarrative");
+	var userAgent = navigator.userAgent.toLowerCase();
+	var greetingText =
+		userAgent.includes("iphone") && userAgent.includes("safari")
+			? "iPhone Elitist!"
+			: userAgent.includes("android")
+			? "Android Super User!"
+			: "Mystery Person!";
+	var finalText = greetingText + " " + narratives.allergyFactorNarrative;
+	greetingElement.innerText = finalText;
+
+	document.getElementById("windDirectionFactor").innerText =
+		"Wind Direction Factor: " + comfortFactors.windDirectionFactor.toFixed(2);
+	document.getElementById("windDirectionNarrative").innerText =
+		"Wind Direction Narrative: " + narratives.windDirectionNarrative;
+
+	const animations = [
+		{ id: "WeatherContainer", delay: 435 },
+		{ id: "city", delay: 500 },
+		{ id: "timeOfDay", delay: 1000 },
+		{ id: "CurrentWeatherText", delay: 1500 },
+		{ id: "currentConditions", delay: 2000 },
+		{ id: "actualTemperature", delay: 2500 },
+		{ id: "actualWindSpeed", delay: 3000 },
+		{ id: "actualHumidity", delay: 3500 },
+		{ id: "comfortcardsbox", delay: 4000 }
+		// Add other elements and their respective delays as needed
+	];
+
+	animations.forEach((item) => addAnimationClass(item.id, item.delay));
+}
+
+// Helper function to add animation class with a delay
+function addAnimationClass(elementId, delay) {
+	setTimeout(() => {
+		const element = document.getElementById(elementId);
+		if (element) {
+			element.classList.add("animation-rollIn");
+		}
+	}, delay);
+}
+
+// Main function to fetch weather data and update UI
+async function main() {
+	try {
+		const zipCode = document.getElementById("zipCode").value;
+		if (!zipCode) {
+			alert("Please enter a ZIP code.");
+			return;
+		}
+
+		weatherData = await fetchWeatherData(zipCode);
+
+		// Determine weather condition based on OpenWeather data
+		const weatherCondition = weatherData.weather[0].main.toLowerCase();
+
+		// Map OpenWeather conditions to Font Awesome icon class names
+		switch (weatherCondition) {
+			case "thunderstorm":
+				weatherIconClass = "fas fa-bolt";
+				break;
+			case "drizzle":
+			case "rain":
+				weatherIconClass = "fas fa-cloud-showers-heavy";
+				break;
+			case "snow":
+				weatherIconClass = "fas fa-snowflake";
+				break;
+			case "clear":
+				weatherIconClass = "fas fa-sun";
+				break;
+			case "clouds":
+				weatherIconClass = "fas fa-cloud";
+				break;
+			case "mist":
+				weatherIconClass = "fa-solid fa-poo-storm";
+				break;
+			default:
+				weatherIconClass = "fas fa-question-circle"; // Default icon
+		}
+
+		// Update the UI with weather data
+		updateUI();
+	} catch (error) {
+		console.error(error);
+		alert("An error occurred. Please try again.");
+	}
+}
+
+const images = [
+	"https://www.instagram.com/p/C2Vsppdpjkg/media/?size=l",
+	"https://www.instagram.com/p/C2V-Hg9sLCd/media/?size=l",
+	"https://www.instagram.com/p/C2XI1Q9NxGp/media/?size=l",
+	"https://www.instagram.com/p/C2XY8e7surC/media/?size=l"
+];
+
+let currentIndex = 0;
+
+function rotateImage() {
+	currentIndex = (currentIndex + 1) % images.length;
+	const rotatingImage = document.getElementById("rotating-image");
+	rotatingImage.src = images[currentIndex];
+}
+
+setInterval(rotateImage, 3000); // Rotates image every 3 seconds
+
+// Event listener for document load
+document.addEventListener("DOMContentLoaded", function () {
+	document.getElementById("fetchButton").addEventListener("click", main);
+});
+
+		</script>
